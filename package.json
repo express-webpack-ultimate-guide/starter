@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "build": "NODE_ENV=production webpack",
+    "start:prod": "NODE_ENV=production node ./bin/www",
+    "start:no-hmr": "NO_HMR=1 node ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
