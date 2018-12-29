@@ -9,7 +9,7 @@ var webpackConfig = {
     entry: {main: ["./src/client/main.js"]},
     output: {
         path: config.distFolder,
-        filename: "main.bundle.js",
+        filename: '[name].[hash].js',
         publicPath: config.publicPath
     },
     mode: config.isProd ? "production" : "development",
@@ -38,7 +38,9 @@ var webpackConfig = {
     },
     plugins: [
         new AssetsWebpackPlugin({path: config.distFolder}),
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename: '[name].[contenthash].css',
+        }),
     ],
     optimization: {
         minimizer: [
