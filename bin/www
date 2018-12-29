@@ -4,31 +4,10 @@
  * Module dependencies.
  */
 
-var app = require('../src/server/app')();
 var debug = require('debug')('express-hmr:server');
 var http = require('http');
+const path = require("path");
 const config = require("../src/config");
-
-/**
- * Get port from environment and store in Express.
- */
-
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -60,37 +39,92 @@ function onError(error) {
   }
 
   var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+      ? 'Pipe ' + port
+      : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
+  case 'EACCES':
+    console.error(bind + ' requires elevated privileges');
+    process.exit(1);
+    break;
+  case 'EADDRINUSE':
+    console.error(bind + ' is already in use');
+    process.exit(1);
+    break;
+  default:
+    throw error;
   }
 }
 
 /**
- * Event listener for HTTP server "listening" event.
+ * Get port from environment and store in Express.
  */
 
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+var port = normalizePort(process.env.PORT || '3000');
+
+let server;
+const sockets = [];
+
+function startServer() {
+  return new Promise((resolve, reject) => {
+    const app = require("../src/server/app")();
+    app.set('port', normalizePort(process.env.PORT || '3000'));
+
+    server = http.createServer(app);
+    server.listen(app.get('port'));
+    server.on('error', onError);
+    server.on('connection', (socket) => {
+      debug('Add socket', sockets.length + 1);
+      sockets.push(socket);
+    });
+    server.on('listening', () => resolve());
+  })
 }
 
+function clearCache() {
+  // clean the cache
+  Object.keys(require.cache).forEach((id) => {
+    delete require.cache[id];
+  });
+}
+function stopServer() {
+  return new Promise((resolve, reject) => {
+    while (sockets.length) {
+      const socket = sockets.pop();
+      if (socket.destroyed === false) {
+        socket.destroy();
+      }
+    }
+
+    server.close(() => {
+      resolve();
+    });
+  })
+}
+
+function restart() {
+  return stopServer()
+      .then(clearCache)
+      .then(startServer)
+}
+
+startServer().then(() => {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+      ? 'pipe ' + addr
+      : 'port ' + addr.port;
+  console.log('Listening on ' + bind);
+});
+
 if (!config.isProd) {
-    const hmr = require("../src/server/hmr");
-    const bundler = hmr.startWds();
+  const hmr = require("../src/server/hmr");
+  const bundler = hmr.startWds();
+  const chokidar = require('chokidar');
+  chokidar.watch(path.join(__dirname, "../src/server")).on('all', (event, at) => {
+    if (event === 'change') {
+      console.log('Restarting server...');
+      restart();
+    }
+  });
 }
