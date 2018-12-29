@@ -8,6 +8,7 @@ const config = require("../config");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const webpackAssets = require('express-webpack-assets');
 
 module.exports = () => {
   var app = express();
@@ -28,6 +29,9 @@ module.exports = () => {
     const {createProxy} = require("./hmr");
     app.use(config.publicPath, createProxy());
   }
+  app.use(webpackAssets(path.join(__dirname, '../../dist/webpack-assets.json'), {
+    devMode: process.env.NODE_ENV !== "production"
+  }));
 
   app.use('/', indexRouter);
   app.use('/users', usersRouter);
