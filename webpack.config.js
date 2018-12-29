@@ -2,6 +2,8 @@ const config = require("./src/config");
 const Webpack = require("webpack");
 const AssetsWebpackPlugin = require('assets-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 var webpackConfig = {
     entry: {main: ["./src/client/main.js"]},
@@ -37,7 +39,13 @@ var webpackConfig = {
     plugins: [
         new AssetsWebpackPlugin({path: config.distFolder}),
         new MiniCssExtractPlugin(),
-    ]
+    ],
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin(),
+            new OptimizeCSSAssetsPlugin(),
+        ]
+    }
 
 };
 
