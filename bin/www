@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../src/server/app');
+var app = require('../src/server/app')();
 var debug = require('debug')('express-hmr:server');
 var http = require('http');
 const config = require("../src/config");
