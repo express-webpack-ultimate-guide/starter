@@ -1,5 +1,6 @@
 const config = require("./src/config");
 const Webpack = require("webpack");
+const AssetsWebpackPlugin = require('assets-webpack-plugin');
 
 var webpackConfig = {
     entry: {main: ["./src/client/main.js"]},
@@ -33,6 +34,7 @@ var webpackConfig = {
         ]
     },
     plugins: [
+        new AssetsWebpackPlugin({path: config.distFolder}),
     ]
 
 };
