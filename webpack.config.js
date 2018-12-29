@@ -1,6 +1,7 @@
 const config = require("./src/config");
 const Webpack = require("webpack");
 const AssetsWebpackPlugin = require('assets-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 var webpackConfig = {
     entry: {main: ["./src/client/main.js"]},
@@ -25,7 +26,7 @@ var webpackConfig = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    'style-loader',
+                    config.isProd ? { loader: MiniCssExtractPlugin.loader } : 'style-loader',
                     'css-loader',
                     'postcss-loader',
                     'sass-loader'
@@ -35,6 +36,7 @@ var webpackConfig = {
     },
     plugins: [
         new AssetsWebpackPlugin({path: config.distFolder}),
+        new MiniCssExtractPlugin(),
     ]
 
 };

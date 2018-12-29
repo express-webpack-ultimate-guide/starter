@@ -3,6 +3,9 @@
   <head>
     <title>{{ title }}</title>
     <script src="{{ webpack_asset('main').js  }}"></script>
+    {% if webpack_asset('main').css is defined %}
+    <link rel="stylesheet" href="{{ webpack_asset('main').css  }}" />
+    {% endif %}
   </head>
   <body>
     {% block body %}{% endblock %}
