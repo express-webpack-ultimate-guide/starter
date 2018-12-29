@@ -7,6 +7,7 @@
 var app = require('../src/server/app');
 var debug = require('debug')('express-hmr:server');
 var http = require('http');
+const config = require("../src/config");
 
 /**
  * Get port from environment and store in Express.
@@ -87,4 +88,9 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+}
+
+if (!config.isProd) {
+    const hmr = require("../src/server/hmr");
+    const bundler = hmr.startWds();
 }

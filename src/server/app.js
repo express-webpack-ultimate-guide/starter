@@ -19,7 +19,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
-app.use(config.publicPath, express.static(config.distFolder));
+
+if (config.isProd) {
+  app.use(config.publicPath, express.static(config.distFolder));
+} else {
+  const {createProxy} = require("./hmr");
+  app.use(config.publicPath, createProxy());
+}
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
