@@ -1,10 +1,10 @@
 const Webpack = require("webpack");
 const WebpackDevServer = require("webpack-dev-server");
 const httpProxy = require("http-proxy");
-const webpackConfig = require("../../webpack.config.js");
 const config = require("../config");
 
-exports.startWds = () => {
+function getWebpackConfig() {
+    const webpackConfig = require("../../webpack.config.js");
     if (config.hmrEnabled) {
         Object.keys(webpackConfig.entry).forEach(name => {
             webpackConfig.entry[name] = typeof webpackConfig.entry[name] === "string" ?
@@ -17,7 +17,10 @@ exports.startWds = () => {
             ];
         });
     }
-
+    return webpackConfig;
+}
+exports.startWds = () => {
+    const webpackConfig = getWebpackConfig();
     const compiler = Webpack(webpackConfig);
 
     compiler.plugin("compile", function () {
