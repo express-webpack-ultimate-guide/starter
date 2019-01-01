@@ -7,7 +7,8 @@
     "build": "NODE_ENV=production webpack",
     "start:prod": "NODE_ENV=production node ./bin/www",
     "start:no-hmr": "NO_HMR=1 node ./bin/www",
-    "lint:css": "stylelint src/client/**.scss"
+    "lint:css": "stylelint src/client/**.scss",
+    "lint:js": "eslint src/"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
@@ -25,6 +26,8 @@
     "babel-loader": "^8.0.4",
     "chokidar": "^2.0.4",
     "css-loader": "^2.1.0",
+    "eslint": "^5.11.1",
+    "eslint-loader": "^2.1.1",
     "http-proxy": "^1.17.0",
     "mini-css-extract-plugin": "^0.5.0",
     "node-sass": "^4.11.0",

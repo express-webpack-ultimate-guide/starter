@@ -27,6 +27,12 @@ var webpackConfig = {
                 },
             },
             {
+                enforce: "pre",
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: "eslint-loader",
+            },
+            {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
                     config.isProd ? { loader: MiniCssExtractPlugin.loader } : 'style-loader',

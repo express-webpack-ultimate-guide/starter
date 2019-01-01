@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const Webpack = require("webpack");
 const WebpackDevServer = require("webpack-dev-server");
 const httpProxy = require("http-proxy");
