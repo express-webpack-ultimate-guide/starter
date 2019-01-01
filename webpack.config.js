@@ -4,6 +4,7 @@ const AssetsWebpackPlugin = require('assets-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 var webpackConfig = {
     entry: {main: ["./src/client/main.js"]},
@@ -41,6 +42,7 @@ var webpackConfig = {
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
         }),
+        new StyleLintPlugin(),
     ],
     optimization: {
         minimizer: [
