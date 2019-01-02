@@ -1,6 +1,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/afcbeb9e790525675375/maintainability)](https://codeclimate.com/github/express-webpack-ultimate-guide/starter/maintainability)
 [![dependencies Status](https://david-dm.org/express-webpack-ultimate-guide/starter/status.svg)](https://david-dm.org/express-webpack-ultimate-guide/starter)
 [![devDependencies Status](https://david-dm.org/express-webpack-ultimate-guide/starter/dev-status.svg)](https://david-dm.org/express-webpack-ultimate-guide/starter?type=dev)
+[![Build Status](https://travis-ci.com/express-webpack-ultimate-guide/starter.svg?branch=master)](https://travis-ci.com/express-webpack-ultimate-guide/starter)
 
 A starter project for building websites using Express.js and Webpack. It provides hot-reloading for both client
 and server code, as described in the 
