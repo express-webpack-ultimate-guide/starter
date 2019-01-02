@@ -48,5 +48,13 @@ Note: linting is also integrated in webpack, so you'll also see the warnings whi
     yarn test:client # run client tests using Karma and watch
     yarn test:server # run server tests using Mocha and watch
 
-    yarn ci:test:client # run client tests once for CI
-    yarn ci:test:server # run server tests once
+    yarn test:client:ci # run client tests once for CI
+    yarn test:server:ci # run server tests once
+
+### About the book
+
+I wrote a book on how to integrate a Webpack dev server into an Express app.
+
+- Buy on leanpub: https://leanpub.com/express-webpack-ultimate-guide
+- Read online: https://express-webpack-ultimate-guide.github.io/
+
