@@ -1,0 +1,4 @@
+src/server/**.spec.js
+--require ./test/common.js
+--recursive
+
