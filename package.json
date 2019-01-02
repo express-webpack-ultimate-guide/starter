@@ -7,6 +7,7 @@
     "build": "NODE_ENV=production webpack",
     "start:prod": "NODE_ENV=production node ./bin/www",
     "start:no-hmr": "NO_HMR=1 node ./bin/www",
+    "test": "yarn lint:css && yarn lint:js && yarn test:server:ci && yarn test:client:ci",
     "lint:css": "stylelint src/client/**.scss",
     "lint:js": "eslint src/",
     "test:server": "NODE_ENV=test mocha -w",
